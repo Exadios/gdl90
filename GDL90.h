@@ -765,13 +765,13 @@ bool GDL90::heartbeat_decode( const RawBytes& unpacked, uint32_t& status, uint32
     if ( unpacked.size() != 7 ) return error();
     size_t i = 0; 
     if ( unpacked[i++] != uint8_t(MESSAGE_ID::HEARTBEAT) ) return error();
-    status = unpacked[i++] << 8;
-    status |= unpacked[i++] << 0;
+    status = unpacked[i++] << 0;
+    status |= unpacked[i++] << 8;
     timestamp = (status >> 15) << 16;
     status &= 0x7fff;
     if ( (status & HEARTBEAT_STATUS_DISALLOWED_MASK) != 0 ) return error();
-    timestamp |= unpacked[i++] << 8;
     timestamp |= unpacked[i++] << 0;
+    timestamp |= unpacked[i++] << 8;
     uint16_t msg_counts = unpacked[i++] << 8;
     msg_counts |= unpacked[i++] << 0;
     msg_count_uplink = msg_counts >> 11;
